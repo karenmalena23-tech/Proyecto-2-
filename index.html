@@ -1,0 +1,368 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10151d">
+  <title>Expediente X — Duelo de detectives</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one" aria-hidden="true"></div>
+  <div class="ambient ambient-two" aria-hidden="true"></div>
+
+  <header class="site-header">
+    <a class="brand" href="#" aria-label="Expediente X inicio">
+      <span class="brand-mark">X</span>
+      <span>
+        <strong>EXPEDIENTE X</strong>
+        <small>Unidad de casos sin resolver</small>
+      </span>
+    </a>
+    <span class="top-tag">
+      <span class="live-dot"></span>
+      MODO COMPETITIVO
+    </span>
+  </header>
+
+  <main class="page-shell">
+    <section id="setupPanel" class="panel setup-panel">
+      <div class="eyebrow">
+        <span class="eyebrow-line"></span>
+        ARCHIVO CLASIFICADO · CASO 001
+      </div>
+
+      <h1>Dos detectives.<br><span>Una sola verdad.</span></h1>
+
+      <p class="lead">
+        Crea una sala privada, invita a tu rival con un código
+        y resuelve el misterio por tu cuenta. Cada decisión suma puntos.
+      </p>
+
+      <div class="case-teaser">
+        <div class="case-art" aria-hidden="true">
+          <span class="art-stamp">CASO<br>001</span>
+          <span class="art-symbol">⌕</span>
+        </div>
+
+        <div class="case-teaser-copy">
+          <span class="mini-label">INVESTIGACIÓN DISPONIBLE</span>
+          <h2>El robo de La Última Luz</h2>
+          <p>
+            Una pintura desaparece de un museo cerrado.
+            Cuatro sospechosos. Varias coartadas. Una pista clave.
+          </p>
+          <div class="case-meta">
+            <span>4 sospechosos</span><i></i>
+            <span>5 pruebas</span><i></i>
+            <span>100 puntos</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="setup-grid">
+        <form id="createForm" class="form-card">
+          <div class="form-icon">＋</div>
+          <h2>Crear una sala</h2>
+          <p>Serás el Detective 1. Comparte el código con tu rival.</p>
+
+          <label for="createName">Tu nombre de detective</label>
+          <input
+            id="createName"
+            name="nickname"
+            maxlength="20"
+            minlength="2"
+            placeholder="Ej. Alex"
+            required
+            autocomplete="nickname"
+          >
+
+          <button class="button button-primary" type="submit">
+            Crear partida <span>↗</span>
+          </button>
+        </form>
+
+        <form id="joinForm" class="form-card">
+          <div class="form-icon form-icon-alt">⌑</div>
+          <h2>Unirme a una sala</h2>
+          <p>Si tu rival ya creó una sala, introduce su código.</p>
+
+          <label for="joinName">Tu nombre de detective</label>
+          <input
+            id="joinName"
+            name="nickname"
+            maxlength="20"
+            minlength="2"
+            placeholder="Ej. Sam"
+            required
+            autocomplete="nickname"
+          >
+
+          <label for="joinCode">Código de la partida</label>
+          <input
+            id="joinCode"
+            name="code"
+            maxlength="8"
+            minlength="8"
+            placeholder="A1B2C3D4"
+            required
+            autocapitalize="characters"
+            autocomplete="off"
+            spellcheck="false"
+          >
+
+          <button class="button button-secondary" type="submit">
+            Entrar a la sala <span>→</span>
+          </button>
+        </form>
+      </div>
+
+      <p class="privacy-note">
+        <span>ⓘ</span>
+        No necesitas correo ni contraseña. Usa un nombre ficticio
+        y no compartas datos personales.
+      </p>
+    </section>
+
+    <section id="roomPanel" class="panel room-panel" hidden>
+      <div class="room-toolbar">
+        <div>
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            SALA DE INVESTIGACIÓN
+          </div>
+          <h1 class="room-title">
+            Expediente <span id="roomCodeTitle">--------</span>
+          </h1>
+        </div>
+        <button id="copyCodeButton" class="button button-quiet" type="button">
+          Copiar código ↗
+        </button>
+      </div>
+
+      <div class="room-status-strip">
+        <span class="status-badge">
+          <span class="live-dot"></span>
+          <span id="statusLabel">Esperando al rival</span>
+        </span>
+        <span class="status-small">
+          La sala se actualiza automáticamente
+        </span>
+      </div>
+
+      <section class="players-card">
+        <div class="section-heading">
+          <span class="section-number">01</span>
+          <div>
+            <h2>Detectives conectados</h2>
+            <p>Dos jugadores, puntuaciones independientes.</p>
+          </div>
+        </div>
+        <div id="playersList" class="players-list"></div>
+      </section>
+
+      <section id="lobbyPanel" class="notice-panel">
+        <div class="notice-icon">⌛</div>
+        <div>
+          <h2>Esperando al segundo detective</h2>
+          <p>
+            Envía el código de sala a tu rival. Cuando entre,
+            el expediente se abrirá para ambos.
+          </p>
+          <div class="large-code" id="lobbyCode">--------</div>
+        </div>
+      </section>
+
+      <section id="gamePanel" hidden>
+        <div class="case-heading">
+          <div>
+            <div class="eyebrow">
+              <span class="eyebrow-line"></span>
+              CASO 001 · INFORME INICIAL
+            </div>
+            <h2>El robo de La Última Luz</h2>
+          </div>
+          <div class="score-chip">
+            <strong>100</strong>
+            <span>puntos posibles</span>
+          </div>
+        </div>
+
+        <p class="case-story">
+          A las 20:30, la pintura más valiosa del Museo Bellweather
+          había desaparecido. No hay señales de entrada forzada.
+          Cuatro personas estuvieron en el museo esa noche.
+          Analiza las pruebas y decide quién lo hizo.
+        </p>
+
+        <div class="section-heading evidence-heading">
+          <span class="section-number">02</span>
+          <div>
+            <h2>Tablero de pruebas</h2>
+            <p>Lee todas las pruebas antes de presentar tu teoría.</p>
+          </div>
+        </div>
+
+        <div id="cluesGrid" class="clues-grid"></div>
+
+        <form id="answerForm" class="answer-card">
+          <div class="section-heading">
+            <span class="section-number">03</span>
+            <div>
+              <h2>Presenta tu deducción</h2>
+              <p>
+                Tu respuesta permanecerá oculta hasta que ambos
+                detectives terminen.
+              </p>
+            </div>
+          </div>
+
+          <div class="answer-grid">
+            <fieldset class="choice-fieldset">
+              <legend>
+                ¿Quién robó la pintura? <span>+70 puntos</span>
+              </legend>
+
+              <label class="choice-row">
+                <input type="radio" name="suspect" value="ines" required>
+                <span class="radio-custom"></span>
+                <span class="choice-copy">
+                  <strong>Inés Vega</strong>
+                  <small>Curadora del museo</small>
+                </span>
+              </label>
+
+              <label class="choice-row">
+                <input type="radio" name="suspect" value="tomas" required>
+                <span class="radio-custom"></span>
+                <span class="choice-copy">
+                  <strong>Tomás Ruiz</strong>
+                  <small>Guardia de seguridad</small>
+                </span>
+              </label>
+
+              <label class="choice-row">
+                <input type="radio" name="suspect" value="clara" required>
+                <span class="radio-custom"></span>
+                <span class="choice-copy">
+                  <strong>Clara Solís</strong>
+                  <small>Fotógrafa de la exposición</small>
+                </span>
+              </label>
+
+              <label class="choice-row">
+                <input type="radio" name="suspect" value="bruno" required>
+                <span class="radio-custom"></span>
+                <span class="choice-copy">
+                  <strong>Bruno León</strong>
+                  <small>Restaurador de arte</small>
+                </span>
+              </label>
+            </fieldset>
+
+            <div class="theory-column">
+              <label for="clueGuess">
+                ¿Qué prueba respalda mejor tu acusación?
+                <span class="points-inline">+30 puntos</span>
+              </label>
+
+              <select id="clueGuess" name="clue" required>
+                <option value="">Selecciona una prueba…</option>
+                <option value="ev_391">Prueba A — Registro de acceso</option>
+                <option value="ev_582">Prueba B — Fotografía del vestíbulo</option>
+                <option value="ev_147">Prueba C — Registro de la alarma</option>
+                <option value="ev_263">Prueba D — Videollamada de la curadora</option>
+                <option value="ev_704">Prueba E — Nota del taller</option>
+              </select>
+
+              <label for="theoryText">Tu teoría (opcional)</label>
+              <textarea
+                id="theoryText"
+                name="theory"
+                rows="4"
+                maxlength="500"
+                placeholder="Explica brevemente cómo crees que ocurrió…"
+              ></textarea>
+
+              <p class="field-hint">
+                Máximo 500 caracteres. Tu teoría se mostrará al final,
+                junto con los resultados.
+              </p>
+            </div>
+          </div>
+
+          <div class="submit-row">
+            <p>⚠️ No podrás cambiar tu respuesta después de enviarla.</p>
+            <button
+              class="button button-primary"
+              id="submitAnswerButton"
+              type="submit"
+            >
+              Presentar respuesta <span>↗</span>
+            </button>
+          </div>
+        </form>
+      </section>
+
+      <section id="submittedPanel" class="notice-panel" hidden>
+        <div class="notice-icon">✓</div>
+        <div>
+          <h2>Tu respuesta está sellada</h2>
+          <p>
+            Ya no puedes cambiar tu deducción. Esperamos a que el otro
+            detective presente su respuesta. Las teorías y las puntuaciones
+            seguirán ocultas hasta entonces.
+          </p>
+          <div class="sealed-stamp">RESPUESTA REGISTRADA</div>
+        </div>
+      </section>
+
+      <section id="resultsPanel" hidden>
+        <div class="results-banner">
+          <div class="eyebrow">
+            <span class="eyebrow-line"></span>
+            CASO CERRADO
+          </div>
+          <h2 id="winnerTitle">Investigación completada</h2>
+          <p id="winnerCopy">Ambos detectives han presentado sus teorías.</p>
+        </div>
+
+        <div class="solution-card">
+          <span class="mini-label">RESOLUCIÓN OFICIAL</span>
+          <h3 id="solutionTitle">Caso resuelto</h3>
+          <p id="solutionText">
+            La solución aparecerá cuando ambos detectives hayan enviado
+            sus respuestas.
+          </p>
+        </div>
+
+        <div class="section-heading results-heading">
+          <span class="section-number">04</span>
+          <div>
+            <h2>Resultados de los detectives</h2>
+            <p>
+              70 puntos por identificar al culpable y 30 por elegir
+              la prueba clave.
+            </p>
+          </div>
+        </div>
+
+        <div id="resultsList" class="results-list"></div>
+
+        <button id="newGameButton" class="button button-secondary" type="button">
+          Volver al inicio <span>↻</span>
+        </button>
+      </section>
+
+      <div id="roomMessage" class="message" role="status" aria-live="polite"></div>
+    </section>
+
+    <footer class="site-footer">
+      <span>EXPEDIENTE X / PROTOTIPO ESCOLAR</span>
+      <span>OBSERVA. RELACIONA. DEDUCE.</span>
+    </footer>
+  </main>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
