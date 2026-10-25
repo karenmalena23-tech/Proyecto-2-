@@ -6,8 +6,8 @@ import {
    EXPEDIENTE X — CONFIGURACIÓN
    ========================================= */
 
-const SUPABASE_URL = "PEGA_AQUI_TU_PROJECT_URL";
-const SUPABASE_PUBLISHABLE_KEY = "PEGA_AQUI_TU_PUBLISHABLE_KEY";
+const SUPABASE_URL = "https://jahooutlfbznssyyknfi.supabase.co"
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_DVBAb6lh3emVrWKOn5VHWg_2OTAQCCr";
 
 const isConfigured =
   SUPABASE_URL.startsWith("https://") &&
